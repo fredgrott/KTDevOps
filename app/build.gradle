@@ -1,0 +1,132 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'org.jetbrains.dokka-android'
+
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+apply plugin: "com.diffplug.gradle.spotless"
+
+apply plugin: 'jacoco'
+
+
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "io.github.shareme.ktdevops"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "testing"
+    productFlavors {
+          // so we can run junit5 android testing to get access to better parameterized testing
+          tdd{
+              dimension 'testing'
+              minSdkVersion 24
+              applicationIdSuffix ".tdd"
+              versionNameSuffix "-tdd"
+          }
+          // to run spek testing
+          bdd {
+              dimension 'testing'
+              minSdkVersion 24
+              applicationIdSuffix ".bdd"
+              versionNameSuffix "-bdd"
+          }
+          // to run debugbottle
+          debugbottle{
+              dimension 'testing'
+              minSdkVersion 22
+              applicationIdSuffix ".debugbottle"
+              versionNameSuffix "-debugbottle"
+          }
+          // to run uiautomator
+          uiauto {
+              dimension 'testing'
+              applicationIdSuffix ".uiauto"
+              versionNameSuffix "-uiauto"
+          }
+    }
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+    }
+
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+detekt {
+    defaultProfile {
+        input = "$projectDir/src/main/java"
+        config = "$projectDir/default-detekt-config.yml"
+        filters = ".*/resources/.*,.*/tmp/.*"
+        output = "$projectDir/build/reports/detekt"
+        baseline = file("$projectDir/build/reports/baseline.xml")
+    }
+
+}
+
+spotless {
+    kotlin {
+        target '**/*.kt'
+        licenseHeaderFile "$rootDir/license.kt.txt"
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*' ]
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
