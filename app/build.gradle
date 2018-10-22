@@ -11,16 +11,20 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 apply plugin: "com.diffplug.gradle.spotless"
 
 apply plugin: 'jacoco'
+project.extensions.extraProperties.set('SpotBugsTask', com.github.spotbugs.SpotBugsTask)
+apply plugin: "com.github.spotbugs"
 
 
-
+def configs = rootProject.ext.config
+def droidxlibs = rootProject.ext.androidxlibs
+def thridpartylibs = rootProject.ext.otherlibs
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "io.github.shareme.ktdevops"
-        minSdkVersion 21
-        targetSdkVersion 28
+        applicationId "${configs.appIdName}"
+        minSdkVersion configs.minSdkVersion
+        targetSdkVersion configs.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -120,13 +124,54 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     ])
 }
 
+spotbugs {
+
+
+    excludeFilter = file("${rootProject}/tools/findbugs-filter.xml")
+
+    // Search better
+    effort = 'max'
+    // Report all
+    reportLevel = 'low'
+}
+
+def spotbugsTask = task('spotbugs') {
+    description 'Run spotbugs'
+    group 'Verification'
+}
+
+def spotbugsReports = [ 'Html', 'Xml' ]
+
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestUtil 'androidx.test:orchestrator:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
+    implementation droidxlibs.appcompat
+    testImplementation thridpartylibs.junit
+    androidTestImplementation droidxlibs.testrunner
+    androidTestUtil droidxlibs.testorchestrator
+    androidTestImplementation droidxlibs.espressocore
+}
+
+android.applicationVariants.all { variant ->
+    spotbugsReports.each { reportType ->
+        task("spotbugs${reportType}${variant.name.capitalize()}", type: SpotBugsTask, dependsOn: variant.javaCompiler) {
+            description "Run spotbugs for ${variant.name}"
+            group 'Verification'
+
+            classes = fileTree("build/intermediates/classes/${variant.flavorName}/${variant.buildType.name}/") + fileTree("build/tmp/kotlin-classes/${variant.name}/")
+            source = variant.javaCompiler.source
+
+            classpath = variant.javaCompiler.classpath.asFileTree
+
+            reports {
+                html.enabled = reportType == 'Html'
+                xml.enabled = reportType == 'Xml'
+
+                html.stylesheet resources.text.fromFile('cq-configs/findbugs/findbugs-html.xsl')
+            }
+        }
+    }
 }
