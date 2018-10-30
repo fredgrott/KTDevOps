@@ -45,12 +45,25 @@ android {
     }
     flavorDimensions "testing"
     productFlavors {
+
+           stagging {
+               dimension 'testing'
+               minSdkVersion 21
+               applicationIdSuffix ".stage"
+               versionNameSuffix ".stage"
+           }
+
+
           // so we can run junit5 android testing to get access to better parameterized testing
           tdd{
               dimension 'testing'
               minSdkVersion 24
               applicationIdSuffix ".tdd"
               versionNameSuffix "-tdd"
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_1_8
+                  targetCompatibility JavaVersion.VERSION_1_8
+              }
           }
           // to run spek testing
           bdd {
@@ -58,6 +71,10 @@ android {
               minSdkVersion 24
               applicationIdSuffix ".bdd"
               versionNameSuffix "-bdd"
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_1_8
+                  targetCompatibility JavaVersion.VERSION_1_8
+              }
           }
           // to run debugbottle
           debugbottle{
