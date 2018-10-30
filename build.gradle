@@ -39,7 +39,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0-alpha01'
+        classpath 'com.android.tools.build:gradle:3.4.0-alpha02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -93,11 +93,31 @@ ext {
     // with minSdkVersion at 21 we are not at 28 for AndroidX use yet for supportlibs
     supportLibsVersion ="28.0.0"
 
+    // androidx list at
+    // https://developer.android.com/jetpack/androidx/migrate
     androidxlibs = [
             appcompat: "androidx.appcompat:appcompat:1.0.0",
             testrunner: "androidx.test:runner:1.1.0-beta02",
             testorchestrator: "androidx.test:orchestrator:1.1.0-beta02",
             espressocore: "androidx.test.espresso:espresso-core:3.1.0-beta02"
+    ]
+
+    //anjdroid ktx list at
+    // https://developer.android.com/kotlin/ktx
+    androidktxlibs = [
+            ktxcore: "androidx.core:core-ktx:1.0.0",
+            ktxfrags: "androidx.fragment:fragment-ktx:1.0.0",
+            ktxpalette: "androidx.palette:palette-ktx:1.0.0",
+            ktxsqlite: "androidx.sqlite:sqlite-ktx:2.0.0",
+            ktxcollection: "androidx.collection:collection-ktx:1.0.0",
+            ktxlifecyclevm: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0",
+            ktxlifecyclereactivestreams: "androidx.lifecycle:lifecycle-reactivestreams-ktx\t:2.0.0",
+            ktxnavcommon: "android.arch.navigation:navigation-common-ktx:1.0.0-alpha06",
+            ktxnvafrags: "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06",
+            ktxnavruntime: "android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha06",
+            ktxnavtesting: "android.arch.navigation:navigation-testing-ktx:1.0.0-alpha06\t",
+            ktxnavui: "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06",
+            ktxworkruntime: "android.arch.work:work-runtime-ktx:1.0.0-alpha10"
     ]
 
     otherlibs = [
