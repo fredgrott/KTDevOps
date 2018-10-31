@@ -94,7 +94,7 @@ android {
          ///u ses  debug overview of Rhym
          //https://github.com/chris-horner/RhythmSticks
         //  https://github.com/Actinarium/Rhythm
-        deesigndebug{
+        designdebug{
             dimension "design"
             applicationIdSuffix ".designdebug"
             versionNameSuffix "-designdebug"
@@ -182,6 +182,8 @@ dependencies {
     androidTestImplementation droidxlibs.androidxTestEspressoEsspressoCore
     androidTestImplementation thirdpartylibs.spoonSpoonClient
     androidTestImplementation thirdpartylibs.spoonSpoonRunner
+    //how to set this up is at https://github.com/chris-horner/RhythmSticks
+    designdebugImplementation thirdpartylibs.rhythmRhythm
 }
 
 android.applicationVariants.all { variant ->
