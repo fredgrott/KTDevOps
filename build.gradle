@@ -143,19 +143,19 @@ ext {
     //anjdroid ktx list at
     // https://developer.android.com/kotlin/ktx
     androidktxlibs = [
-            ktxcore: "androidx.core:core-ktx:1.0.0",
-            ktxfrags: "androidx.fragment:fragment-ktx:1.0.0",
-            ktxpalette: "androidx.palette:palette-ktx:1.0.0",
-            ktxsqlite: "androidx.sqlite:sqlite-ktx:2.0.0",
-            ktxcollection: "androidx.collection:collection-ktx:1.0.0",
-            ktxlifecyclevm: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0",
-            ktxlifecyclereactivestreams: "androidx.lifecycle:lifecycle-reactivestreams-ktx\t:2.0.0",
-            ktxnavcommon: "android.arch.navigation:navigation-common-ktx:1.0.0-alpha06",
-            ktxnvafrags: "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06",
-            ktxnavruntime: "android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha06",
-            ktxnavtesting: "android.arch.navigation:navigation-testing-ktx:1.0.0-alpha06\t",
-            ktxnavui: "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06",
-            ktxworkruntime: "android.arch.work:work-runtime-ktx:1.0.0-alpha10"
+            androidxCoreCoreKtx: "androidx.core:core-ktx:1.0.0",
+            anroidxfragmentFragmentKtx: "androidx.fragment:fragment-ktx:1.0.0",
+            androidxPalettePaletteKtx: "androidx.palette:palette-ktx:1.0.0",
+            androixSqliteSqliteKtx: "androidx.sqlite:sqlite-ktx:2.0.0",
+            androixCollectionCollectionKtx: "androidx.collection:collection-ktx:1.0.0",
+            androidxLifecylelifecycleViewmodelKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0",
+            androidxLifecylelifecycleReacctivestreamsKtx: "androidx.lifecycle:lifecycle-reactivestreams-ktx\t:2.0.0",
+            androidArchNavigationNavigationCommonKtx: "android.arch.navigation:navigation-common-ktx:1.0.0-alpha06",
+            androidArchNavigationNavigatiionFragmentKtx: "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06",
+            androidArchNavigatiionNaviagtionRuntimeKtx: "android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha06",
+            androidArchNavigationNavigationTestingKtx: "android.arch.navigation:navigation-testing-ktx:1.0.0-alpha06\t",
+            androidArchNavigationNavigationUiKtx: "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06",
+            androidArchWorkWorkRuntimeKtx: "android.arch.work:work-runtime-ktx:1.0.0-alpha10"
     ]
 
     otherlibs = [
