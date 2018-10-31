@@ -196,6 +196,7 @@ dependencies {
     implementation thirdpartylibs.rxjavaRxjava
     implementation thirdpartylibs.rxjavaRxKotlin
     implementation thirdpartylibs.rxjavaAndroid
+    implementation thirdpartylibs.rxgroupsAndroid
 }
 
 kapt {
