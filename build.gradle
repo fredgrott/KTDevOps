@@ -33,6 +33,8 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+
+
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         google()
         jcenter()
@@ -59,6 +61,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         google()
         jcenter()
         
@@ -159,11 +162,12 @@ ext {
     ]
 
     otherlibs = [
-            junit:"junit:junit:4.12",
-            kleunt: "org.amshove.kluent:kluent-android:1.4",
-            mockitokotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC3",
-            spoonclient: "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT",
-            rhythm: "com.actinarium.rhythm:rhythm:0.9.6"
+            junitJunit:"junit:junit:4.12",
+            kluentKluentAndroid: "org.amshove.kluent:kluent-android:1.4",
+            mockitokotlintwoMockitoKotlin: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC3",
+            spoonSpoonClient: "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT",
+            spoonSpoonRunner:"com.squareup.spoon:spoon-runner:2.0.0-SNAPSHOT",
+            rhythmRhythm: "com.actinarium.rhythm:rhythm:0.9.6"
     ]
 
 

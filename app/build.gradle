@@ -10,6 +10,8 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 
 apply plugin: "com.diffplug.gradle.spotless"
 
+apply plugin: "com.jaredsburrows.spoon"
+
 apply plugin: 'jacoco'
 project.extensions.extraProperties.set('SpotBugsTask', com.github.spotbugs.SpotBugsTask)
 apply plugin: "com.github.spotbugs"
@@ -17,7 +19,7 @@ apply plugin: "com.github.spotbugs"
 
 def configs = rootProject.ext.config
 def droidxlibs = rootProject.ext.androidxlibs
-def thridpartylibs = rootProject.ext.otherlibs
+def thirdpartylibs = rootProject.ext.otherlibs
 
 android {
     compileSdkVersion 28
@@ -174,10 +176,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation droidxlibs.androidxAppcompat
-    testImplementation thridpartylibs.junit
+    testImplementation thirdpartylibs.junitJunit
     androidTestImplementation droidxlibs.androidxTestRunner
     androidTestUtil droidxlibs.androidxTestOrchestrator
     androidTestImplementation droidxlibs.androidxTestEspressoEsspressoCore
+    androidTestImplementation thirdpartylibs.spoonSpoonClient
+    androidTestImplementation thirdpartylibs.spoonSpoonRunner
 }
 
 android.applicationVariants.all { variant ->
@@ -198,5 +202,41 @@ android.applicationVariants.all { variant ->
                 html.stylesheet resources.text.fromFile('cq-configs/findbugs/findbugs-html.xsl')
             }
         }
+    }
+}
+
+spoon {
+    debug = true
+
+    baseOutputDir = file("$buildDir/custom-report-dir")
+
+    if (project.hasProperty("spoonClassName")) {
+        className = project.spoonClassName
+
+        if (project.hasProperty("spoonMethodName")) {
+            methodName = project.spoonMethodName
+        }
+    }
+
+    instrumentationArgs = ["foo:bar"]
+
+    adbTimeout = 30
+
+//  codeCoverage = true
+
+    grantAllPermissions = true
+}
+
+configurations.all {
+    resolutionStrategy {
+
+    }
+}
+task checkReports() {
+    doLast {
+        assert project.tasks.spoonDebugAndroidTest != null
+        assert project.file("$buildDir/custom-report-dir").exists()
+        assert project.file("$buildDir/custom-report-dir/debug").exists()
+//    assert project.file("$buildDir/custom-report-dir/debug/coverage").exists()
     }
 }
