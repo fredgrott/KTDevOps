@@ -43,7 +43,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    flavorDimensions "testing"
+    flavorDimensions "testing", "design"
     productFlavors {
 
            stagging {
@@ -89,6 +89,14 @@ android {
               applicationIdSuffix ".uiauto"
               versionNameSuffix "-uiauto"
           }
+         ///u ses  debug overview of Rhym
+         //https://github.com/chris-horner/RhythmSticks
+        //  https://github.com/Actinarium/Rhythm
+        deesigndebug{
+            dimension "design"
+            applicationIdSuffix ".designdebug"
+            versionNameSuffix "-designdebug"
+        }
     }
     dokka {
         outputFormat = 'html'
@@ -165,11 +173,11 @@ def spotbugsReports = [ 'Html', 'Xml' ]
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation droidxlibs.appcompat
+    implementation droidxlibs.androidxAppcompat
     testImplementation thridpartylibs.junit
-    androidTestImplementation droidxlibs.testrunner
-    androidTestUtil droidxlibs.testorchestrator
-    androidTestImplementation droidxlibs.espressocore
+    androidTestImplementation droidxlibs.androidxTestRunner
+    androidTestUtil droidxlibs.androidxTestOrchestrator
+    androidTestImplementation droidxlibs.androidxTestEspressoEsspressoCore
 }
 
 android.applicationVariants.all { variant ->
