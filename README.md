@@ -10,6 +10,11 @@ Android DevOps plays the key role in this.
 
 Repo contains a sample setup for Android Kotlin non-robolectric for now.
 
+# Standards
+
+Details of standards being enforced
+
+[Standards](STANDARDS.md)
 
 # license
 

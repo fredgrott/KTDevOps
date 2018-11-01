@@ -213,6 +213,10 @@ dependencies {
     //Grox commands artifacts do depend on Rx (1 or 2)
     implementation thirdpartylibs.groxCommandsRx
     implementation thirdpartylibs.groxCommandsRxTwo
+    implementation thirdpartylibs.transitionX
+    implementation thirdpartylibs.kovenantKovenant
+    implementation thirdpartylibs.rhythmRhythm
+    implementation thirdpartylibs.rhythmSticks
 }
 
 kapt {
