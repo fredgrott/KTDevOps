@@ -69,15 +69,26 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        miniDebug {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+            matchingFallbacks = ['debug']
+        }
     }
     flavorDimensions "testing", "design"
     productFlavors {
+
+           
 
            stagging {
                dimension 'testing'
                minSdkVersion 21
                applicationIdSuffix ".stage"
-               versionNameSuffix ".stage"
+               versionNameSuffix "-stage"
            }
 
 
