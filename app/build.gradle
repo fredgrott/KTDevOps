@@ -217,6 +217,11 @@ dependencies {
     implementation thirdpartylibs.kovenantKovenant
     implementation thirdpartylibs.rhythmRhythm
     implementation thirdpartylibs.rhythmSticks
+    debugImplementation thirdpartylibs.debugbottleRuntime
+    releaseImplementation thirdpartylibs.debugbottleNoopJava
+    testImplementation thirdpartylibs.debugbottleNoopJava
+    releaseImplementation thirdpartylibs.debugbottleNoopKotlin
+    testImplementation thirdpartylibs.debugbottleNoopKotlin
 }
 
 kapt {

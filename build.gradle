@@ -181,7 +181,10 @@ ext {
             groxCommandsRx: "com.groupon.grox:grox-commands-rx:1.1.2",
             groxCommandsRxTwo: "com.groupon.grox:grox-commands-rx2:1.1.2",
             transitionX: "in.arunkumarsampath:transition-x:1.0.0-beta4",
-            kovenantKovenant: "nl.komponents.kovenant:kovenant:3.3.0"
+            kovenantKovenant: "nl.komponents.kovenant:kovenant:3.3.0",
+            debugbottleRuntime: "com.exyui.android:debug-bottle-runtime:1.1.1",
+            debugbottleNoopJava: "com.exyui.android:debug-bottle-noop-java:1.1.1",
+            debugbottleNoopKotlin: "com.exyui.android:debug-bottle-noop-kotlin:1.1.1"
     ]
 
     junitfive = [
