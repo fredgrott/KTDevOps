@@ -18,10 +18,13 @@ apply plugin: "com.github.spotbugs"
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "de.mannodermaus.android-junit5"
+
 
 def configs = rootProject.ext.config
 def droidxlibs = rootProject.ext.androidxlibs
 def thirdpartylibs = rootProject.ext.otherlibs
+def junitfivelibs = rootProject.ext.junitfive
 
 android {
     compileSdkVersion 28
@@ -197,6 +200,13 @@ dependencies {
     implementation thirdpartylibs.rxjavaRxKotlin
     implementation thirdpartylibs.rxjavaAndroid
     implementation thirdpartylibs.rxgroupsAndroid
+    // (Required) Writing and executing Unit Tests on the JUnit Platform
+    testImplementation junitfivelibs.junitJupiterApi
+    testRuntimeOnly junitfivelibs.junitJupiterEngine
+
+    // (Optional) If you need "Parameterized Tests"
+    testImplementation junitfivelibs.junitJupiterParams
+    testRuntimeOnly junitfivelibs.junitVintage
 }
 
 kapt {
