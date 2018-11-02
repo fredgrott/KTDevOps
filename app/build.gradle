@@ -22,6 +22,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "de.mannodermaus.android-junit5"
 
+apply plugin: "pl.droidsonroids.pitest"
+
 
 def configs = rootProject.ext.config
 def droidxlibs = rootProject.ext.androidxlibs
@@ -236,7 +238,16 @@ def spotbugsTask = task('spotbugs') {
 
 def spotbugsReports = [ 'Html', 'Xml' ]
 
-
+// mutation test setup is at https://blog.undabot.com/the-art-of-android-devops-fa29396bc9ee
+// plugin details at https://github.com/koral--/gradle-pitest-plugin
+pitest {
+    targetClasses = ['io.github.shareme.ktdevops.*']  /* specify target classes to be mutated */
+    excludedClasses = ['**Factory*'] /* Exclude Dagger generated classes */
+    pitestVersion = "1.1.0"
+    threads = 4 /* specify number of threads */
+    outputFormats = ['XML', 'HTML'] /* specify output format */
+    verbose = true
+}
 
 
 dependencies {
