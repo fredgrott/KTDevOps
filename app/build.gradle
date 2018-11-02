@@ -253,6 +253,8 @@ dependencies {
     testImplementation thirdpartylibs.debugbottleNoopJava
     releaseImplementation thirdpartylibs.debugbottleNoopKotlin
     testImplementation thirdpartylibs.debugbottleNoopKotlin
+    implementation thirdpartylibs.kotlinCoroutinesCore
+    implementation thirdpartylibs.kotlinCoroutinesAndroid
 }
 
 kapt {
