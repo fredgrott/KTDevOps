@@ -27,14 +27,24 @@ def droidxlibs = rootProject.ext.androidxlibs
 def thirdpartylibs = rootProject.ext.otherlibs
 def junitfivelibs = rootProject.ext.junitfive
 
+// versiioning
+ext.versionMajor = 1
+ext.versionMinor = 0
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.isSnapshot = true
+
+
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "${configs.appIdName}"
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
@@ -368,4 +378,54 @@ task checkReports() {
         assert project.file("$buildDir/custom-report-dir/debug").exists()
 //    assert project.file("$buildDir/custom-report-dir/debug/coverage").exists()
     }
+}
+
+private Integer generateVersionCode() {
+    return rootProject.ext.config.minSdkVersion*10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName
+}
+
+// part of versioning to get the apk filename modified right for product flavors
+android.applicationVariants.all { variant ->
+    println "*********" + variant.description + "**********"
+    def variants = variant.baseName.split("-")
+    def apkName = rootProject.ext.config.apkName
+    apkName += variants[0]
+    apkName += "-v" + android.defaultConfig.versionName
+
+    if (variant.buildType.name == "release") {
+        apkName += "-RELEASE.apk"
+    } else {
+        apkName += "-SNAPSHOT.apk"
+    }
+    println "*********" + "$project.buildDir/apk/" + apkName + "**********"
+
+    variant.outputs.all {
+        outputFileName = "${apkName}.apk"
+    }
+    variant.outputs.all {
+        output ->
+            variant.assemble.doLast {
+                if ( variant.mappingFile != null &&
+                        variant.mappingFile.exists() ) {
+                    copy {
+                        from variant.mappingFile
+                        into output.outputFile.parent
+                    }
+                }
+            }
+    }
+
+
 }
