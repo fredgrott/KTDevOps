@@ -7,8 +7,14 @@ double up using your full dev and design process to do fast small incremental
 new feature android app builds as the new interest from users about new 
 features is a very contagious disease in all social platforms. 
 Android DevOps plays the key role in this.
-
 Repo contains a sample setup for Android Kotlin non-robolectric for now.
+
+# Note
+
+This assumes starting from a clean slate. Most other projects one would convert
+the project to mvvm clean arch and groupon grox state support first than clean up
+code to get a release and than do amjor conversion to kotlin and rxjava.
+
 
 # Standards
 
