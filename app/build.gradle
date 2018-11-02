@@ -40,9 +40,25 @@ NOTE: Leaving off apk signing because most of the time the correct setup in deal
       CI servers is to only sign the apk manually by projject lead on their local machine
  */
 
+/*
+Copyright 2018 Fred Grott
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ */
+
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion configs.compileSdkVersion
     defaultConfig {
         applicationId "${configs.appIdName}"
         minSdkVersion configs.minSdkVersion
@@ -100,7 +116,8 @@ android {
 
            stagging {
                dimension 'testing'
-               minSdkVersion 21
+               // default minSkdkVersion for release stagging
+               minSdkVersion configs.minSdkVersion
                applicationIdSuffix ".stage"
                versionNameSuffix "-stage"
            }
@@ -182,7 +199,7 @@ spotless {
         licenseHeaderFile "$rootDir/license.kt.txt"
     }
 }
-
+// task jacocoTestCoverageVerification  setup details at https://docs.gradle.org/current/userguide/jacoco_plugin.html
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
     reports {
@@ -282,7 +299,36 @@ kapt {
     correctErrorTypes = true
 }
 
+//spotbugs taskk setup detials at https://gist.github.com/mik9/fdde79052fef7f03c4325734701a39d7
 android.applicationVariants.all { variant ->
+    println "*********" + variant.description + "**********"
+    def variants = variant.baseName.split("-")
+    def apkName = rootProject.ext.config.apkName
+    apkName += variants[0]
+    apkName += "-v" + android.defaultConfig.versionName
+
+    if (variant.buildType.name == "release") {
+        apkName += "-RELEASE.apk"
+    } else {
+        apkName += "-SNAPSHOT.apk"
+    }
+    println "*********" + "$project.buildDir/apk/" + apkName + "**********"
+
+    variant.outputs.all {
+        outputFileName = "${apkName}.apk"
+    }
+    variant.outputs.all {
+        output ->
+            variant.assemble.doLast {
+                if ( variant.mappingFile != null &&
+                        variant.mappingFile.exists() ) {
+                    copy {
+                        from variant.mappingFile
+                        into output.outputFile.parent
+                    }
+                }
+            }
+    }
     spotbugsReports.each { reportType ->
         task("spotbugs${reportType}${variant.name.capitalize()}", type: SpotBugsTask, dependsOn: variant.javaCompiler) {
             description "Run spotbugs for ${variant.name}"
