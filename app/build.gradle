@@ -269,6 +269,9 @@ dependencies {
     testImplementation thirdpartylibs.okhttpMockwebserver
     implementation thirdpartylibs.retrofit
     implementation thirdpartylibs.okio
+    // heap analyzer see https://github.com/square/haha
+    // for how to use only should have this on debug buildtypes
+    debugImplementation thirdpartylibs.haha
 }
 
 kapt {
