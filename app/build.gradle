@@ -265,6 +265,10 @@ dependencies {
     testImplementation thirdpartylibs.debugbottleNoopKotlin
     implementation thirdpartylibs.kotlinCoroutinesCore
     implementation thirdpartylibs.kotlinCoroutinesAndroid
+    implementation thirdpartylibs.okthttp
+    testImplementation thirdpartylibs.okhttpMockwebserver
+    implementation thirdpartylibs.retrofit
+    implementation thirdpartylibs.okio
 }
 
 kapt {
