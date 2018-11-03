@@ -22,6 +22,12 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "de.mannodermaus.android-junit5"
 
+apply plugin: 'checkstyle'
+
+apply plugin: 'jdepend'
+
+
+
 
 
 
@@ -208,6 +214,20 @@ spotless {
         licenseHeaderFile "$rootDir/license.kt.txt"
     }
 }
+task checkstyle(type: Checkstyle) {
+    description = "Check Java style with Checkstyle"
+    configFile = rootProject.file("$rootProject/tools/checkstyle/checkstyle.xml")
+    source = javaSources()
+    classpath = files()
+    ignoreFailures = true
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/checkstyle/checkstyle.html"
+    }
+}
+
+
 // task jacocoTestCoverageVerification  setup details at https://docs.gradle.org/current/userguide/jacoco_plugin.html
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
@@ -504,4 +524,64 @@ android.applicationVariants.all { variant ->
     }
 
 
+}
+
+jdepend {
+    ignoreFailures = false
+}
+
+task jdependReport(group: 'verification', description: 'Generates a HTML report after executing jdepend checks.') << {
+    //check for 'parent' projects
+    if (new File("$reporting.baseDir/jdepend/main.xml").exists()) {
+        ant.xslt(
+                in: "$reporting.baseDir/jdepend/main.xml",
+                style: "$rootDir/config/jdepend/jdepend-report.xslt",
+                out: "$reporting.baseDir/jdepend/index.html")
+    }
+}
+
+afterEvaluate {
+    try {
+        check {
+            dependsOn += ['jdependReport']
+        }
+    } catch (Throwable t) {
+        logger.debug("failed to attach check on project" + project.name, t);
+    }
+}
+
+//configure jdepend for 'android' projects
+task jdependAndroidReport(group: 'verification', description: 'Generates a HTML report after executing jdepend checks.') << {
+    //check for 'parent' projects
+    if (new File("$reporting.baseDir/jdepend/main.xml").exists()) {
+        ant.xslt(
+                in: "$reporting.baseDir/jdepend/main.xml",
+                style: "$rootDir/tools/jdepend/jdepend-report.xslt",
+                out: "$reporting.baseDir/jdepend/index.html")
+    }
+}
+
+task jdependAndroid(type: JDepend, dependsOn: 'compileDebugSources') {
+    classesDir file('build/intermediates/')
+    reports {
+        xml {
+            destination "$reporting.baseDir/jdepend/main.xml"
+        }
+    }
+}
+
+jdependAndroidReport.dependsOn jdependAndroid
+
+def javaSources() {
+    def files = []
+    android.sourceSets.each { sourceSet ->
+        sourceSet.java.each { javaSource ->
+            javaSource.getSrcDirs().each {
+                if (it.exists()) {
+                    files.add(it)
+                }
+            }
+        }
+    }
+    return files
 }
