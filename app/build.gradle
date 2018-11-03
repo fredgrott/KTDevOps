@@ -111,6 +111,9 @@ android {
         }
 
         release {
+            // ms windows does support this unless yu add the helper gradle plugin that runs JGIT
+            buildConfigField("String", "GIT_HASH", rootProject.ext.gitSha)
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

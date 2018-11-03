@@ -78,9 +78,9 @@ task clean(type: Delete) {
 ext {
     // git stuff as to use on MS Windows need to use JGit lib and helpers
 
-    gitwin = [
+
             gitSha = '${git.repo.head().abbreviatedId}'
-    ]
+
 
 
     config = [
