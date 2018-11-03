@@ -22,6 +22,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "de.mannodermaus.android-junit5"
 
+apply plugin: 'com.getkeepsafe.dexcount'
+
 
 
 
@@ -524,7 +526,21 @@ android.applicationVariants.all { variant ->
 }
 
 
-
+dexcount {
+    format = "list"
+    includeClasses = false
+    includeClassCount = false
+    includeFieldCount = true
+    includeTotalMethodCount = false
+    orderByMethodCount = false
+    verbose = false
+    maxTreeDepth = Integer.MAX_VALUE
+    teamCityIntegration = false
+    teamCitySlug = null
+    runOnEachPackage = true
+    maxMethodCount = 64000
+    enabled = true
+}
 
 
 

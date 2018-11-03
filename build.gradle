@@ -27,6 +27,7 @@ buildscript {
     ext.junitfive_version = '1.3.1.0'
     ext.spoongradle_version = '1.4.0'
     ext.spotbugs_version = '1.6.5'
+    ext.dexcount_version = '0.8.4'
 
 
 
@@ -55,6 +56,7 @@ buildscript {
         classpath "de.mannodermaus.gradle.plugins:android-junit5:$junitfive_version"
         classpath "com.jaredsburrows:gradle-spoon-plugin:$spoongradle_version"
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:$spotbugs_version"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
 
 
 
