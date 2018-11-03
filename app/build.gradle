@@ -127,24 +127,7 @@ android {
         }
 
     }
-    testOptions {
-        junitPlatform {
-            filters {
-                engines {
-                    include 'spek2'
-                }
-            }
-            jacocoOptions {
-                // here goes all jacoco config, for example
-                html.enabled = true
-                xml.enabled = true
-                csv.enabled = true
-                unitTests.all {
-                    testLogging.events = ["passed", "skipped", "failed"]
-                }
-            }
-        }
-    }
+
 
 
     flavorDimensions "testing", "design"
@@ -213,9 +196,24 @@ android {
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled true
-
         unitTests {
             includeAndroidResources = true
+        }
+        junitPlatform {
+            filters {
+                engines {
+                    include 'spek2'
+                }
+            }
+            jacocoOptions {
+                // here goes all jacoco config, for example
+                html.enabled = true
+                xml.enabled = true
+                csv.enabled = true
+                unitTests.all {
+                    testLogging.events = ["passed", "skipped", "failed"]
+                }
+            }
         }
     }
 }
@@ -543,4 +541,6 @@ dexcount {
 }
 
 
-
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
