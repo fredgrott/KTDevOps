@@ -11,10 +11,12 @@ Repo contains a sample setup for Android Kotlin non-robolectric for now.
 
 # Note
 
-This assumes starting from a clean slate. Most other projects one would convert
-the project to mvvm clean arch and groupon grox state support first than clean up
-code to get a release and than do amjor conversion to kotlin and rxjava.
+Hey startup cofounders read this part! Adding a 2nd android dev with kotlin and rxjava will not rescue the project if the
+wrong app arch and wrong lib tools and frameworks was made prior to getting the kotlin religion. Hoenstly, you will need to
+understand that the app will have to be rewritten as a MVRx MVVM clean arch kotlin rxjava android app and that it will be a
+brutual project marhc of 7 day weeks for about 4 moonths to fix the prior bad android code smell.
 
+Want me to draw you a picture?
 
 # Standards
 

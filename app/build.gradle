@@ -33,6 +33,7 @@ apply plugin: "build-time-tracker"
 
 
 
+
 def configs = rootProject.ext.config
 def droidxlibs = rootProject.ext.androidxlibs
 def thirdpartylibs = rootProject.ext.otherlibs
@@ -553,3 +554,4 @@ buildtimetracker {
         }
     }
 }
+
